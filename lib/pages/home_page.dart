@@ -11,31 +11,70 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int loadingProgress = 0;
+  bool isLoading = false;
   TextEditingController urlController = TextEditingController();
   WebViewController webViewController = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted);
+
   @override
   void initState() {
     super.initState();
+    webViewController.loadHtmlString('<html><body></body></html>');
+    webViewController.setNavigationDelegate(
+      NavigationDelegate(
+        onPageStarted: (url) {
+          setState(() {
+            isLoading = true;
+            loadingProgress = 0;
+          });
+        },
+        onProgress: (progress) {
+          setState(() => loadingProgress = progress);
+        },
+        onPageFinished: (url) {
+          setState(() => isLoading = false);
+        },
+      ),
+    );
   }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        titleSpacing: 1,
-        title: UrlBar(
-          webViewController: webViewController, 
-          urlController: urlController
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (await webViewController.canGoBack()) {
+          webViewController.goBack();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          titleSpacing: 1,
+          title: UrlBar(
+            webViewController: webViewController, 
+            urlController: urlController
+          ),
+          leading: IconButton(onPressed: () {
+            urlController.clear();
+            webViewController.loadHtmlString('<html><body></body></html>');
+          }, icon: Icon(Icons.home)),
+          actions: [
+            BrowserMenu(controller: webViewController)
+          ],
         ),
-        leading: IconButton(onPressed: () {
-          urlController.clear();
-          webViewController.loadHtmlString('<html><body></body></html>');
-        }, icon: Icon(Icons.home)),
-        actions: [
-          BrowserMenu(controller: webViewController)
-        ],
+        body: Stack(
+          children: [
+            WebViewWidget(controller: webViewController),
+            if (isLoading)
+              LinearProgressIndicator(
+                value: loadingProgress / 100,
+                color: Colors.green,
+                backgroundColor: Colors.green[100],
+              ),
+          ],
+        ),
       ),
-      body: WebViewWidget(controller: webViewController),
     );
   }
 }
