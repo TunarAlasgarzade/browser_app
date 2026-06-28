@@ -4,10 +4,12 @@ import 'package:webview_flutter/webview_flutter.dart';
 class UrlBar extends StatelessWidget {
   final WebViewController webViewController;
   final TextEditingController urlController;
+  final String currentUrl;
   const UrlBar({
     super.key, 
     required this.webViewController, 
-    required this.urlController
+    required this.urlController,
+    required this.currentUrl,
   });
 
   @override
@@ -26,6 +28,13 @@ class UrlBar extends StatelessWidget {
               borderSide: BorderSide(color: Colors.black, width: 1.2),
             ),
         ),
+        onTap: () {
+          urlController.text = currentUrl;
+          urlController.selection = TextSelection(
+            baseOffset: 0,
+            extentOffset: currentUrl.length,
+          );
+        },
         controller: urlController,
         onSubmitted: (value) {
           String trimmed = value.trim();

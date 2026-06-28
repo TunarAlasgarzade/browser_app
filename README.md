@@ -10,9 +10,12 @@ A simple, privacy-focused browser built with Flutter. Uses DuckDuckGo as the def
 - Home button to clear the page
 - Android back gesture support (navigates back in history)
 - Loading progress indicator
+- URL bar shows current page URL (hides https:// prefix)
+- Opens links from other apps (intent filter)
 - Clean, minimal UI
 
 ## Tech Stack
 
 - Flutter
 - webview_flutter
+- app_links

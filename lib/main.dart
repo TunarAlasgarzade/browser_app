@@ -1,13 +1,23 @@
+import 'package:app_links/app_links.dart';
 import 'package:browser_app/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  String? initialUrl;
+  try {
+    final appLinks = AppLinks();
+    final uri = await appLinks.getInitialLink();
+    initialUrl = uri?.toString();
+  } catch (e) {
+    initialUrl = null;
+  }
+  runApp(MyApp(initialUrl: initialUrl));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final String? initialUrl;
+  const MyApp({super.key, required this.initialUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +28,7 @@ class MyApp extends StatelessWidget {
           foregroundColor: Colors.black,
         ),
       ),
-      home: HomePage(),
+      home: HomePage(initialUrl: initialUrl),
       debugShowCheckedModeBanner: false,
     );
   }

@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final String? initialUrl;
+  const HomePage({super.key, this.initialUrl});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -13,6 +14,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int loadingProgress = 0;
   bool isLoading = false;
+  String _currentUrl = '';
   TextEditingController urlController = TextEditingController();
   WebViewController webViewController = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted);
@@ -20,7 +22,11 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    webViewController.loadHtmlString('<html><body></body></html>');
+    if (widget.initialUrl != null) {
+      webViewController.loadRequest(Uri.parse(widget.initialUrl!));
+    } else {
+      webViewController.loadHtmlString('<html><body></body></html>');
+    }
     webViewController.setNavigationDelegate(
       NavigationDelegate(
         onPageStarted: (url) {
@@ -34,6 +40,17 @@ class _HomePageState extends State<HomePage> {
         },
         onPageFinished: (url) {
           setState(() => isLoading = false);
+        },
+        onUrlChange: (change) {
+          _currentUrl = change.url ?? '';
+          if (_currentUrl == 'about:blank') {
+            urlController.clear();
+            _currentUrl = '';
+          } else {
+            urlController.text = _currentUrl
+                .replaceFirst('https://', '')
+                .replaceFirst('http://', '');
+          }
         },
       ),
     );
@@ -53,7 +70,8 @@ class _HomePageState extends State<HomePage> {
           titleSpacing: 1,
           title: UrlBar(
             webViewController: webViewController, 
-            urlController: urlController
+            urlController: urlController,
+            currentUrl: _currentUrl
           ),
           leading: IconButton(onPressed: () {
             urlController.clear();
