@@ -38,6 +38,7 @@ class UrlBar extends StatelessWidget {
         controller: urlController,
         onSubmitted: (value) {
           String trimmed = value.trim();
+          if (trimmed.isEmpty) return;
           bool isUrl = trimmed.startsWith('https://') || 
             trimmed.startsWith('http://') ||
             (!trimmed.contains(' ') && trimmed.contains('.') && !trimmed.endsWith('.'));

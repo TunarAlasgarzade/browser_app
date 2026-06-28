@@ -46,11 +46,14 @@ class _HomePageState extends State<HomePage> {
           if (_currentUrl == 'about:blank') {
             urlController.clear();
             _currentUrl = '';
-          } else {
-            urlController.text = _currentUrl
-                .replaceFirst('https://', '')
-                .replaceFirst('http://', '');
-          }
+          } else if (_currentUrl.contains('duckduckgo.com/?q=')) {
+  final query = Uri.parse(_currentUrl).queryParameters['q'] ?? '';
+  urlController.text = query;
+} else {
+  urlController.text = _currentUrl
+      .replaceFirst('https://', '')
+      .replaceFirst('http://', '');
+}
         },
       ),
     );

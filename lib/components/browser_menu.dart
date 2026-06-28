@@ -10,6 +10,16 @@ class BrowserMenu extends StatelessWidget {
     return PopupMenuButton(
       itemBuilder: (context) => [
         PopupMenuItem(
+          value: 'reload',
+          child: Row(
+            children: [
+              Icon(Icons.refresh),
+              SizedBox(width: 8),
+              Text('Reload'),
+            ],
+          ),
+        ),
+        PopupMenuItem(
           value: 'back',
           child: Row(
             children: [
@@ -26,16 +36,6 @@ class BrowserMenu extends StatelessWidget {
               Icon(Icons.arrow_forward),
               SizedBox(width: 8),
               Text('Forward'),
-            ],
-          ),
-        ),
-        PopupMenuItem(
-          value: 'reload',
-          child: Row(
-            children: [
-              Icon(Icons.refresh),
-              SizedBox(width: 8),
-              Text('Reload'),
             ],
           ),
         ),
