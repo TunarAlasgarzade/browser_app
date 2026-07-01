@@ -47,13 +47,13 @@ class _HomePageState extends State<HomePage> {
             urlController.clear();
             _currentUrl = '';
           } else if (_currentUrl.contains('duckduckgo.com/?q=')) {
-  final query = Uri.parse(_currentUrl).queryParameters['q'] ?? '';
-  urlController.text = query;
-} else {
-  urlController.text = _currentUrl
-      .replaceFirst('https://', '')
-      .replaceFirst('http://', '');
-}
+            final query = Uri.parse(_currentUrl).queryParameters['q'] ?? '';
+            urlController.text = query;
+          } else {
+            urlController.text = _currentUrl
+                .replaceFirst('https://', '')
+                .replaceFirst('http://', '');
+          }
         },
       ),
     );
@@ -81,19 +81,22 @@ class _HomePageState extends State<HomePage> {
             webViewController.loadHtmlString('<html><body></body></html>');
           }, icon: Icon(Icons.home)),
           actions: [
-            BrowserMenu(controller: webViewController)
+            BrowserMenu(
+              controller: webViewController,
+              currentUrl: _currentUrl,
+            )
           ],
         ),
         body: Stack(
-          children: [
-            WebViewWidget(controller: webViewController),
-            if (isLoading)
-              LinearProgressIndicator(
-                value: loadingProgress / 100,
-                color: Colors.green,
-                backgroundColor: Colors.green[100],
-              ),
-          ],
+            children: [
+              WebViewWidget(controller: webViewController),
+              if (isLoading)
+                LinearProgressIndicator(
+                  value: loadingProgress / 100,
+                  color: Colors.green,
+                  backgroundColor: Colors.green[100],
+                ),
+            ],
         ),
       ),
     );

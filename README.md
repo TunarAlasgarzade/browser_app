@@ -14,6 +14,7 @@ A simple, privacy-focused browser built with Flutter. Uses DuckDuckGo as the def
 - Search query stays visible in URL bar when browsing DuckDuckGo results
 - Opens links from other apps (intent filter)
 - Prevents empty search submission
+- Share current page URL with other apps
 - Clean, minimal UI
 
 ## Tech Stack
@@ -21,3 +22,4 @@ A simple, privacy-focused browser built with Flutter. Uses DuckDuckGo as the def
 - Flutter
 - webview_flutter
 - app_links
+- share_plus
