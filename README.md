@@ -1,6 +1,6 @@
 # Browser App
 
-A simple, privacy-focused browser built with Flutter. Uses DuckDuckGo as the default search engine.
+A simple, browser built with Flutter. Uses DuckDuckGo as the default search engine.
 
 ## Features
 
