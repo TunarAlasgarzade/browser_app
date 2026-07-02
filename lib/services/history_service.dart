@@ -45,6 +45,7 @@ class HistoryService {
     await prefs.setBool('historyEnabled', value);
   }
 
+  // remove single history item
   Future<void> removeFromHistory(String url) async {
     final prefs = await SharedPreferences.getInstance();
     List<String> history = prefs.getStringList('history') ?? [];

@@ -8,18 +8,12 @@ A simple browser built with Flutter. Uses DuckDuckGo as the default search engin
 - DuckDuckGo search integration
 - Back, forward, and reload navigation
 - Home button to clear the page
-- Android back gesture support (navigates back in history)
+- Android back gesture support
 - Loading progress indicator
-- URL bar shows current page URL (hides 'https://' prefix)
-- Opens links from other apps (intent filter)
-- Prevents empty search submission
-- Share current page URL with other apps
-- Save browsing history
-- Enable or disable browsing history
-- View browsing history
-- Delete individual history entries
-- Clear all browsing history
-- Stores up to 100 recent history entries
+- URL bar shows current page URL
+- Opens links from other apps
+- Share current page URL
+- Browsing history (enable/disable, view, delete)
 - Clean, minimal UI
 
 ## Tech Stack

@@ -18,21 +18,25 @@ class _HomePageState extends State<HomePage> {
   int loadingProgress = 0;
   bool isLoading = false;
   String _currentUrl = '';
-  TextEditingController urlController = TextEditingController();
-  WebViewController webViewController = WebViewController()
+  final TextEditingController urlController = TextEditingController();
+  final WebViewController webViewController = WebViewController()
     ..setJavaScriptMode(JavaScriptMode.unrestricted);
+  Future<void> _loadSettings() async {
+    _isHistoryEnabled = await historyService.isHistoryEnabled();
+  }
 
-  @override
-  void initState() {
-    super.initState();
-    historyService.isHistoryEnabled().then((value) {
-      setState(() => _isHistoryEnabled = value);
-    });
+  Future<void> _initialize() async {
+    await _loadSettings();
     if (widget.initialUrl != null) {
       webViewController.loadRequest(Uri.parse(widget.initialUrl!));
     } else {
       webViewController.loadHtmlString('<html><body></body></html>');
     }
+  }
+  @override
+  void initState() {
+    super.initState();
+    _initialize();
     webViewController.setNavigationDelegate(
       NavigationDelegate(
         onPageStarted: (url) {
