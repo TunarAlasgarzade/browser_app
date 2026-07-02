@@ -1,5 +1,6 @@
 import 'package:browser_app/components/browser_menu.dart';
 import 'package:browser_app/components/url_bar.dart';
+import 'package:browser_app/services/history_service.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -12,6 +13,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final HistoryService historyService = HistoryService();
+  bool _isHistoryEnabled = false; 
   int loadingProgress = 0;
   bool isLoading = false;
   String _currentUrl = '';
@@ -22,6 +25,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    historyService.isHistoryEnabled().then((value) {
+      setState(() => _isHistoryEnabled = value);
+    });
     if (widget.initialUrl != null) {
       webViewController.loadRequest(Uri.parse(widget.initialUrl!));
     } else {
@@ -40,6 +46,9 @@ class _HomePageState extends State<HomePage> {
         },
         onPageFinished: (url) {
           setState(() => isLoading = false);
+          if (_isHistoryEnabled && url != 'about:blank') {
+            historyService.addToHistory(url);
+          }
         },
         onUrlChange: (change) {
           _currentUrl = change.url ?? '';
@@ -57,6 +66,12 @@ class _HomePageState extends State<HomePage> {
         },
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    urlController.dispose();
+    super.dispose();
   }
 
   @override

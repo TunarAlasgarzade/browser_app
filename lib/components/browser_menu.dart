@@ -1,3 +1,4 @@
+import 'package:browser_app/pages/settings_page.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -56,6 +57,16 @@ class BrowserMenu extends StatelessWidget {
             ],
           ),
         ),
+        PopupMenuItem(
+          value: 'settings',
+          child: Row(
+            children: [
+              Icon(Icons.settings),
+              SizedBox(width: 8),
+              Text('Settings'),
+            ],
+          ),
+        ),
       ],
       onSelected: (value) async {
         if (value == 'back') {
@@ -66,7 +77,7 @@ class BrowserMenu extends StatelessWidget {
           controller.reload();
         } else if (value == 'share') {
           SharePlus.instance.share(ShareParams(text: await controller.currentUrl() ?? ''));
-        }
+        } else if (value == 'settings') {Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage(),));}
       },
     );
   }
