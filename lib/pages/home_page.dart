@@ -27,16 +27,6 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _initialize() async {
     await _loadSettings();
-    if (widget.initialUrl != null) {
-      webViewController.loadRequest(Uri.parse(widget.initialUrl!));
-    } else {
-      webViewController.loadHtmlString('<html><body></body></html>');
-    }
-  }
-  @override
-  void initState() {
-    super.initState();
-    _initialize();
     webViewController.setNavigationDelegate(
       NavigationDelegate(
         onPageStarted: (url) {
@@ -48,8 +38,9 @@ class _HomePageState extends State<HomePage> {
         onProgress: (progress) {
           setState(() => loadingProgress = progress);
         },
-        onPageFinished: (url) {
+        onPageFinished: (url) async {
           setState(() => isLoading = false);
+          _isHistoryEnabled = await historyService.isHistoryEnabled();
           if (_isHistoryEnabled && url != 'about:blank') {
             historyService.addToHistory(url);
           }
@@ -70,6 +61,17 @@ class _HomePageState extends State<HomePage> {
         },
       ),
     );
+    if (widget.initialUrl != null) {
+      webViewController.loadRequest(Uri.parse(widget.initialUrl!));
+    } else {
+      webViewController.loadHtmlString('<html><body></body></html>');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initialize();
   }
 
   @override
