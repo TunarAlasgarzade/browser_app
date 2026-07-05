@@ -6,6 +6,8 @@ A simple browser built with Flutter. Uses DuckDuckGo as the default search engin
 
 - URL bar with smart detection (URL vs search query)
 - DuckDuckGo search integration
+- Multi-tab browsing
+- Dynamic tab titles
 - Back, forward, and reload navigation
 - Home button to clear the page
 - Android back gesture support

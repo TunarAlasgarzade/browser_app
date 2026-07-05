@@ -13,6 +13,7 @@ class SettingsPage extends StatelessWidget {
       ),
       body: ListTile(
         title: Text('History'),
+        leading: Icon(Icons.history),
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) => HistoryPage()));
         }

@@ -61,62 +61,65 @@ class _HistoryPageState extends State<HistoryPage> {
           ),
         ],
       ),
-      body: ListView(
-        children: [
-          SwitchListTile(
-            title: Text('History'),
-            activeThumbColor: Colors.green[600],
-            value: _isHistoryEnabled,
-            onChanged: (value) async {
-              setState(() => _isHistoryEnabled = value);
-              await historyService.setHistoryEnabled(value);
-              if (!value) {
-                await historyService.clearHistory();
-                getHistory();
-              }
-            },
-          ),
-          if (_isHistoryEnabled)
-            ..._history.map((url) => ListTile(
-              title: Text(
-                url,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              trailing: IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: () {
-                  showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: const Text("Delete this history item?"),
-                        content: const Text(
-                          "This history entry will be permanently deleted.",
-                        ),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: const Text("Cancel"),
+      body: Container(
+        color: Colors.white,
+        child: ListView(
+          children: [
+            SwitchListTile(
+              title: Text('History'),
+              activeThumbColor: Colors.green[600],
+              value: _isHistoryEnabled,
+              onChanged: (value) async {
+                setState(() => _isHistoryEnabled = value);
+                await historyService.setHistoryEnabled(value);
+                if (!value) {
+                  await historyService.clearHistory();
+                  getHistory();
+                }
+              },
+            ),
+            if (_isHistoryEnabled)
+              ..._history.map((url) => ListTile(
+                title: Text(
+                  url,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                trailing: IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text("Delete this history item?"),
+                          content: const Text(
+                            "This history entry will be permanently deleted.",
                           ),
-                          TextButton(
-                            onPressed: () async {
-                              Navigator.pop(context);
-                              await historyService.removeFromHistory(url);
-                              getHistory();
-                            },
-                            child: const Text("Delete"),
-                          ),
-                        ],
-                      );
-                    },
-                  );
-                },
-              ),
-            )).toList(),
-        ],
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: const Text("Cancel"),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                Navigator.pop(context);
+                                await historyService.removeFromHistory(url);
+                                getHistory();
+                              },
+                              child: const Text("Delete"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+              )).toList(),
+          ],
+        ),
       ),
     );
   }
