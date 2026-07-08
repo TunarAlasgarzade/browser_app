@@ -16,6 +16,8 @@ A simple browser built with Flutter. Uses DuckDuckGo as the default search engin
 - Opens links from other apps
 - Share current page URL
 - Browsing history (enable/disable, view, delete)
+- Dark mode
+- Dark mode preference is saved
 - Clean, minimal UI
 
 ## Tech Stack
