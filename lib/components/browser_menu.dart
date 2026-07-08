@@ -15,7 +15,7 @@ class BrowserMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton(
-      color: Colors.grey.shade100,
+      color: Theme.of(context).colorScheme.surface,
       itemBuilder: (context) => [
         PopupMenuItem(
           value: 'reload',

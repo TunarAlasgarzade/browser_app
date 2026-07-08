@@ -62,7 +62,7 @@ class _HistoryPageState extends State<HistoryPage> {
         ],
       ),
       body: Container(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         child: ListView(
           children: [
             SwitchListTile(

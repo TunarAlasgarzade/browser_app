@@ -32,7 +32,7 @@ class _TabsPageState extends State<TabsPage> {
         ],
       ),
       body: Material(
-        color: Colors.grey.shade100,
+        color: Theme.of(context).colorScheme.surface,
         child: ListView(
           children: widget.tabs.map((tab) => ListTile(
             trailing: IconButton(
